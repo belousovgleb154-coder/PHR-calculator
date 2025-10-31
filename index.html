@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Калькулятор процента РПУ</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f2f2f2;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 800px;
+      margin: 40px auto;
+      background-color: #fff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+    select, input, button {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      font-size: 14px;
+    }
+    button {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    #result {
+      margin-top: 20px;
+      font-size: 18px;
+      font-weight: bold;
+      text-align: center;
+      padding: 10px;
+      border-radius: 8px;
+      border: 2px solid transparent;
+    }
+    .warning {
+      color: #b30000;
+      font-size: 14px;
+      text-align: center;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Калькулятор процента РПУ</h1>
+
+    <label>Пробитие (мм): <input type="number" id="penetration" min="5" max="1200"></label>
+    <label>Калибр орудия (мм): <input type="number" id="caliber" min="7.62" max="380"></label>
+    <label>Толщина брони цели (мм): <input type="number" id="armor" min="5" max="400"></label>
+    <label>Дистанция до цели (м): <input type="number" id="distance" min="0"></label>
+
+    <label>Тип снаряда:
+      <select id="ammoType">
+        <option value="0.5">ОФ</option>
+        <option value="0.6">ОФ с дистанционным взрывателем</option>
+        <option value="0.7">Шрапнельный</option>
+        <option value="0.1">Дымовой</option>
+        <option value="0.3">Зажигательная смесь</option>
+        <option value="1.5">БПС</option>
+        <option value="1.6">ОБПС</option>
+        <option value="2.0">Кумулятивный</option>
+        <option value="2.5">Тандемный кумулятивный</option>
+        <option value="3.0">Кумулятивный ПТУР</option>
+        <option value="3.5">Тандемный ПТУР</option>
+        <option value="3.6">ПТУР с лазерным наведением</option>
+        <option value="1.0">ББ</option>
+        <option value="1.1">ББЗ</option>
+        <option value="1.2">ББТ</option>
+        <option value="0.3">Пулемётный бронебойный</option>
+        <option value="0.2">Пулемётный трассирующий</option>
+        <option value="0.2">Пулемётный осколочный</option>
+      </select>
+    </label>
+
+    <label>Тип цели:
+      <select id="targetType">
+        <option value="0.5">Зенитка</option>
+        <option value="0.6">САУ (не бронированная)</option>
+        <option value="1">САУ (бронированная)</option>
+        <option value="2">Лёгкий танк</option>
+        <option value="3">Средний танк</option>
+        <option value="4">Тяжёлый танк</option>
+      </select>
+    </label>
+
+    <label>БР цели:
+      <select id="brTarget">
+        <option value="1.0">1.0</option>
+        <option value="1.3">1.3</option>
+        <option value="1.7">1.7</option>
+        <option value="2.0">2.0</option>
+        <option value="2.3">2.3</option>
+        <option value="2.7">2.7</option>
+        <option value="3.0">3.0</option>
+        <option value="3.3">3.3</option>
+        <option value="3.7">3.7</option>
+        <option value="4.0">4.0</option>
+        <option value="4.3">4.3</option>
+        <option value="4.7">4.7</option>
+        <option value="5.0">5.0</option>
+        <option value="5.3">5.3</option>
+        <option value="5.7">5.7</option>
+        <option value="6.0">6.0</option>
+        <option value="6.3">6.3</option>
+        <option value="6.7">6.7</option>
+        <option value="7.0">7.0</option>
+        <option value="7.3">7.3</option>
+        <option value="7.7">7.7</option>
+        <option value="8.0">8.0</option>
+        <option value="8.3">8.3</option>
+        <option value="8.7">8.7</option>
+        <option value="9.0">9.0</option>
+        <option value="9.3">9.3</option>
+        <option value="9.7">9.7</option>
+        <option value="10.0">10.0</option>
+        <option value="10.3">10.3</option>
+        <option value="10.7">10.7</option>
+        <option value="11.0">11.0</option>
+        <option value="11.3">11.3</option>
+        <option value="11.7">11.7</option>
+        <option value="12.0">12.0</option>
+        <option value="12.3">12.3</option>
+        <option value="12.7">12.7</option>
+      </select>
+    </label>
+
+    <label>БР стреляющего:
+      <select id="brOwn">
+        <option value="1.0">1.0</option>
+        <option value="1.3">1.3</option>
+        <option value="1.7">1.7</option>
+        <option value="2.0">2.0</option>
+        <option value="2.3">2.3</option>
+        <option value="2.7">2.7</option>
+        <option value="3.0">3.0</option>
+        <option value="3.3">3.3</option>
+        <option value="3.7">3.7</option>
+        <option value="4.0">4.0</option>
+        <option value="4.3">4.3</option>
+        <option value="4.7">4.7</option>
+        <option value="5.0">5.0</option>
+        <option value="5.3">5.3</option>
+        <option value="5.7">5.7</option>
+        <option value="6.0">6.0</option>
+        <option value="6.3">6.3</option>
+        <option value="6.7">6.7</option>
+        <option value="7.0">7.0</option>
+        <option value="7.3">7.3</option>
+        <option value="7.7">7.7</option>
+        <option value="8.0">8.0</option>
+        <option value="8.3">8.3</option>
+        <option value="8.7">8.7</option>
+        <option value="9.0">9.0</option>
+        <option value="9.3">9.3</option>
+        <option value="9.7">9.7</option>
+        <option value="10.0">10.0</option>
+        <option value="10.3">10.3</option>
+        <option value="10.7">10.7</option>
+        <option value="11.0">11.0</option>
+        <option value="11.3">11.3</option>
+        <option value="11.7">11.7</option>
+        <option value="12.0">12.0</option>
+        <option value="12.3">12.3</option>
+        <option value="12.7">12.7</option>
+      </select>
+    </label>
+
+    <label>Нация цели:
+      <select id="nationTarget">
+        <option value="3">СССР</option>
+        <option value="3">США</option>
+        <option value="2">Германия</option>
+        <option value="2">Британия</option>
+        <option value="2">Франция</option>
+        <option value="1">Швеция</option>
+        <option value="1">Япония</option>
+        <option value="1">Китай</option>
+        <option value="1">Израиль</option>
+      </select>
+    </label>
+
+    <label>Нация стреляющего:
+      <select id="nationOwn">
+        <option value="3">СССР</option>
+        <option value="3">США</option>
+        <option value="2">Германия</option>
+        <option value="2">Британия</option>
+        <option value="2">Франция</option>
+        <option value="1">Швеция</option>
+        <option value="1">Япония</option>
+        <option value="1">Китай</option>
+        <option value="1">Израиль</option>
+      </select>
+    </label>
+
+    <label>Исход выстрела:
+      <select id="event">
+        <option value="1">Пробитие</option>
+        <option value="1000">Не пробитие</option>
+        <option value="1500">Снаряд разрушился</option>
+        <option value="2000">Снаряд исчез</option>
+        <option value="1200">Рикошет</option>
+        <option value="0.5">Критические повреждения</option>
+      </select>
+    </label>
+
+    <label>Премиум и бонусы:
+      <select id="premiumStatus">
+        <option value="none">Нет ни у кого</option>
+        <option value="target_premium">У цели есть премиум</option>
+        <option value="shooter_premium">У стрелявшего есть премиум</option>
+        <option value="both_premium">У обоих есть премиум</option>
+        <option value="unknown">Неизвестно</option>
+      </select>
+    </label>
+
+    <button onclick="calculateRPU()">Рассчитать РПУ</button>
+    <div id="result"></div>
+    <div id="warning" class="warning"></div>
+  </div>
+
+  <script>
+    function calculateRPU() {
+      const P = parseFloat(document.getElementById('penetration').value);
+      const C = parseFloat(document.getElementById('caliber').value);
+      const A = parseFloat(document.getElementById('armor').value);
+      const D = parseFloat(document.getElementById('distance').value);
+      const At = parseFloat(document.getElementById('ammoType').value);
+      const Tt = parseFloat(document.getElementById('targetType').value);
+      const BRT = parseFloat(document.getElementById('brTarget').value);
+      const BRO = parseFloat(document.getElementById('brOwn').value);
+      const Nt = parseFloat(document.getElementById('nationTarget').value);
+      const No = parseFloat(document.getElementById('nationOwn').value);
+      const M = parseFloat(document.getElementById('event').value);
+      const premium = document.getElementById('premiumStatus').value;
+
+      const resultElement = document.getElementById('result');
+      const warningElement = document.getElementById('warning');
+
+      resultElement.innerHTML = '';
+      warningElement.innerHTML = '';
+      resultElement.style.backgroundColor = '';
+      resultElement.style.color = '';
+      resultElement.style.borderColor = '';
+
+      if (
+        isNaN(P) || isNaN(C) || isNaN(A) || isNaN(D) ||
+        isNaN(At) || isNaN(Tt) || isNaN(BRT) || isNaN(BRO) ||
+        isNaN(Nt) || isNaN(No) || isNaN(M)
+      ) {
+        resultElement.innerText = 'Не все параметры введены. Расчёт невозможен.';
+        return;
+      }
+
+      if (P < 5 || P > 1200 || C < 7.62 || C > 380 || A < 5 || A > 400) {
+        resultElement.innerText = 'Один из параметров вне допустимого диапазона.';
+        return;
+      }
+
+      if (M === 1) {
+        resultElement.innerText = 'РПУ: 0%';
+        resultElement.style.color = 'green';
+        resultElement.style.borderColor = 'green';
+        return;
+      }
+
+      const armorFactor = A / (P + C);
+      let base = (1 - armorFactor) * (BRO / BRT) * ((P + C) / 100) * (At / Tt) * M;
+
+      if (premium === 'target_premium') {
+        base *= 0.85;
+      } else if (premium === 'shooter_premium') {
+        base *= 1.15;
+        base += base * 0.5;
+      } else if (premium === 'both_premium') {
+        base *= 0.95;
+        base += base * 0.5;
+      } else if (premium === 'unknown') {
+        warningElement.innerText = 'Статус премиума неизвестен — расчёт может быть неточным.';
+      }
+
+      let nationMultiplier = 1.0;
+      if (No === 3 && Nt === 3) nationMultiplier = 1.45;
+      else if (No === 3) nationMultiplier = 1.35;
+      else if (No === 2 && Nt === 2) nationMultiplier = 1.25;
+      else if (No === 2) nationMultiplier = 1.15;
+      else if (No === 2 && Nt === 1) nationMultiplier = 1.05;
+      else if (No === 1 && Nt === 3) nationMultiplier = 0.95;
+      else if (No === 1 && Nt === 2) nationMultiplier = 0.85;
+      else if (No === 1 && Nt === 1) nationMultiplier = 0.75;
+      else nationMultiplier = 0.65;
+
+      base *= nationMultiplier;
+
+      let RPU = Math.round(base);
+      if (M === 2000) {
+        RPU += 10000;
+      }
+
+      let interpretation = '';
+      if (RPU <= 50) {
+        interpretation = 'РПУ не пришло';
+      } else if (RPU <= 100) {
+        interpretation = 'Рекомендуется купить пакетик';
+      } else if (RPU <= 250) {
+        interpretation = 'РПУ пришло — срочно задонатьте в War Thunder';
+      } else if (RPU <= 500) {
+        interpretation = 'РПУ пришло — срочно купите турмсэк';
+      } else if (RPU < 10000) {
+        interpretation = 'РПУ критически высокое — срочно купите турмсэк Фуджи и золотых орлов';
+      } else {
+        interpretation = 'Булпапников уже за вашей дверью';
+      }
+      
+      resultElement.innerText = 'РПУ: ' + RPU + '%\n' + interpretation;
+      resultElement.style.color = RPU >= 10000 ? 'black' : (RPU >= 500 ? 'red' : (RPU >= 250 ? 'orange' : (RPU >= 100 ? 'goldenrod' : (RPU > 50 ? 'blue' : 'green'))));
+      resultElement.style.borderColor = resultElement.style.color;
+      resultElement.style.backgroundColor = RPU >= 10000 ? 'red' : '';
+    }
+  </script>
+</body>
+</html>
+
